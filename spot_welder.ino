@@ -1,39 +1,33 @@
-/*
-    This sketch demonstrates how to set up a simple HTTP-like server.
-    The server will set a GPIO pin depending on the request
-      http://server_ip/gpio/0 will set the GPIO2 low,
-      http://server_ip/gpio/1 will set the GPIO2 high
-    server_ip is the IP address of the ESP8266 module, will be
-    printed to Serial when the module is connected.
-*/
+// Spot welder by Ghetto Builder
+
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
 
 
-
+// Wifi credentials
 const char* ssid     = "your router";
 const char* password = "your password";
 
+// time for the 3 phases of the spot welding ( in millisecondes)
 int chauffage = 11;
 int pause = 11 ;
 int impulsion = 11 ;
 
+// Address of the timings saved in eeprom
 int addr_c = 0;
 int addr_p = 10;
 int addr_i = 20;
 
 // Create an instance of the server
-// specify the port to listen on as an argument
 ESP8266WebServer server(80);
 
 void setup() {
   Serial.begin(115200);
   delay(10);
 
-  // prepare GPIO2
-  
+  // where the spot welds
   pinMode(2, OUTPUT);
   digitalWrite(2, LOW);
 
@@ -81,7 +75,7 @@ void loop() {
   
  }
 
-
+// unused
 void handleGenericArgs() { //Handler
 
   String message = "Number of args received:";
