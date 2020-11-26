@@ -1,5 +1,6 @@
 # Spot Welder
 This is a home made spot welder which uses a transformer from a micro-wave.
+![inside](/pictures/spot_welder_inside.jpg)
 
 It is controlled by a esp01 (esp8266) which  acts as a webserver and receive commands from a dedicated app on a smartphone.
 
