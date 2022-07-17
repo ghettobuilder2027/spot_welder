@@ -5,10 +5,10 @@
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
 
+IPAddress local_IP(192,168,4,22);
+IPAddress gateway(192,168,4,9);
+IPAddress subnet(255,255,255,0);
 
-// Wifi credentials
-const char* ssid     = "your router";
-const char* password = "your password";
 
 // time for the 3 phases of the spot welding ( in millisecondes)
 int chauffage = 11;
@@ -41,15 +41,12 @@ void setup() {
  
 
   // Connect to WiFi network
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("WiFi connected");
+  Serial.print("Setting soft-AP configuration ... ");
+  Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "Ready" : "Failed!");
+  WiFi.softAP("SPOT");
+  Serial.print("Soft-AP IP address = ");
+  Serial.println(WiFi.softAPIP());
+  
 
   server.on("/args", handleGenericArgs); //Associate the handler function to the path
   server.on("/spargs", handleSpecificArg);   //Associate the handler function to the path
@@ -63,14 +60,14 @@ void setup() {
   server.begin();
   Serial.println("Server started");
   // Print the IP address
-  Serial.println(WiFi.localIP());
+ 
 }
 
 void loop() {
   server.handleClient();    //Handling of incoming requests
-  Serial.println(chauffage);
-  Serial.println(pause);
-  Serial.println(impulsion);
+  //Serial.println(chauffage);
+  //Serial.println(pause);
+  //Serial.println(impulsion);
   delay (30);
   
  }
